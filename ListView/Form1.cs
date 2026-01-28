@@ -226,13 +226,12 @@ namespace ListView
 
 
 
-        bool CheckIfIDExist()
+        bool CheckIfIDExist(string id)
         {
             foreach (stItem itm in InfoList)
             {
-                if (itm.ID == getTextID())
+                if (itm.ID == id)
                 {
-                    MessageBox.Show("This ID Is Already Exists", "ID EXISTS", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return true;
                 }
             }
@@ -260,8 +259,9 @@ namespace ListView
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            if (CheckIfIDExist())
+            if (CheckIfIDExist(txtID.Text))
             {
+                MessageBox.Show("This ID Is Already Exists", "ID EXISTS", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             addListItem();
@@ -484,6 +484,7 @@ namespace ListView
                     if (sItem.genderImage == (global::enGenderImage.Male))
                         listView1.Items.Add(AddItemsInRefresh(sItem));
                 }
+                return;
             }
             else if (showFamalesOnlyToolStripMenuItem.Checked)
             {
@@ -492,6 +493,7 @@ namespace ListView
                     if (sItem.genderImage == (global::enGenderImage.Female))
                         listView1.Items.Add(AddItemsInRefresh(sItem));
                 }
+                return;
             }
             else
             {
@@ -803,6 +805,21 @@ namespace ListView
             }
         }
 
+        stItem setItemWithfor(string[] parts)
+        {
+            stItem item = new stItem();
+            item.ID = parts[0];
+            string genderValue = parts[1];
+            item.genderImage = (genderValue == "Male") ? global::enGenderImage.Male : global::enGenderImage.Female;
+            item.Name = parts[2];
+            item.Gmail = parts[3];
+            item.JobTitle = parts[4];
+            item.DOB = parts[5];
+            item.salary = Convert.ToDouble(parts[6]);
+
+            return item;
+        }
+
         private void importDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openFileDialog1.InitialDirectory = @"C:\";
@@ -816,23 +833,35 @@ namespace ListView
                 lines = File.ReadAllLines(openFileDialog1.FileName);
             }
 
-            foreach (string line in lines)
+            try
             {
-                string[] parts = line.Split(new string[] { "#//#" }, StringSplitOptions.None);
-                stItem item = new stItem();
-                item.ID = parts[0];
-                string genderValue = parts[1];
-                item.genderImage = (genderValue == "Male") ? global::enGenderImage.Male : global::enGenderImage.Female;
-                item.Name = parts[2];
-                item.Gmail = parts[3];
-                item.JobTitle = parts[4];
-                item.DOB = parts[5];
-                item.salary = Convert.ToDouble(parts[6]);
+                int intExistIDs = 0;
+                string strExistIDs = "";
+                foreach (string line in lines)
+                {
+                    string[] parts = line.Split(new string[] { "#//#" }, StringSplitOptions.None);
+                    if (CheckIfIDExist(parts[0]))
+                    {
+                        intExistIDs++;
+                        strExistIDs += parts[0] + ",";
+                        continue;
+                    }
 
-                InfoList.Add(item);
+                    InfoList.Add(setItemWithfor(parts));
+                }
+                RefreshViewList();
+                MessageBox.Show("Data Has Been Imported Successfully");
+                if (intExistIDs > 0)
+                {
+                    MessageBox.Show($"We Found {intExistIDs} ID(s) Exist, With Numbers {strExistIDs}");
+                }
             }
-            RefreshViewList();
-            MessageBox.Show("Data Has Been Imported Successfully");
+            catch (IndexOutOfRangeException)
+            {
+                MessageBox.Show("Please Enter File With Right Separator");
+                return;
+            }
+        
 
         }
 
