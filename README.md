@@ -21,6 +21,6 @@ This project was intentionally developed using **Functional Programming** princi
 
 ## 🚀 How to Use the Demo Data
 1. Run the application.
-2. Go to the **"Person"** menu -> Select **"Export Data"**.
+2. Go to the **"Person"** menu -> Select **"Import Data"**.
 3. Choose the file named **`ImportData.txt`** from the project directory.
 4. The list will instantly populate with 100 demo records for testing.
