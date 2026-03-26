@@ -28,7 +28,7 @@ This project was intentionally developed using **Functional Programming** princi
 ## 📸 Preview
 
 ### Login
-![Login Screen](Images/Login.png)
+![Login Screen](Images/LoginScreen.png)
 
 ### Main Interface
 ![Main Form](Images/MainScreen.png)
