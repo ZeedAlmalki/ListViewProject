@@ -24,3 +24,22 @@ This project was intentionally developed using **Functional Programming** princi
 2. Go to the **"Person"** menu -> Select **"Import Data"**.
 3. Choose the file named **`ImportData.txt`** from the project directory.
 4. The list will instantly populate with 100 demo records for testing.
+
+## 📸 Preview
+
+### Login
+![Login Screen](Images/Login.png)
+
+### Main Interface
+![Main Form](Images/MainScreen.png)
+
+### Search
+![Search Person](Images/CardScreen.png)
+
+### Update
+![Update Person](Images/EditScreen.png)
+
+---
+
+## 📂 More Screenshots
+Additional screenshots are available in the `Images` folder.
